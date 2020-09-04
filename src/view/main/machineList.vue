@@ -238,6 +238,33 @@ export default {
     watch: {
         machineType: function (val) {
             console.log(val);
+            console.log(this.allMachine);
+            let machineList = {},
+                allMachine = this.allMachine;
+            for (const item of allMachine) {
+                if (val == "workshop") {
+                    if (!machineList[item.workshopId]) {
+                        machineList[item.workshopId] = {
+                            id: item.workshopId,
+                            name: item.workshopName,
+                        };
+                        machineList[item.workshopId].machines = [item];
+                    } else {
+                        machineList[item.workshopId].machines.push(item);
+                    }
+                } else if (val == "type") {
+                    if (!machineList[item.status]) {
+                        machineList[item.status] = {
+                            id: item.status,
+                            name: item.statusName,
+                        };
+                        machineList[item.status].machines = [item];
+                    } else {
+                        machineList[item.status].machines.push(item);
+                    }
+                }
+            }
+            this.machineList = machineList;
         },
     },
     methods: {
