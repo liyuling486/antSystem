@@ -35,13 +35,14 @@
                     </keep-alive>
                 </div>
             </a-layout-content>
-            <a-layout-footer style="text-align: center">Ant Design  ©2018 Created by Ant UED</a-layout-footer>
+            <a-layout-footer style="text-align: center">Ant Design ©2018 Created by Ant UED</a-layout-footer>
         </a-layout>
     </a-layout>
 </template>
 <script>
 import { mapState } from "vuex";
 import { login } from "@/api/api";
+import store from "@/store/store";
 export default {
     data() {
         return {
@@ -79,20 +80,24 @@ export default {
             this.bread = bread;
         },
         loginFn(res) {
-            this.$store.commit('updateLogin', res.data);
+            this.$store.commit("updateLogin", res.data);
+        },
+        getToken() {
+            if (!store.state.token) {
+                let params = new FormData();
+                params.append("loginName", "9999");
+                params.append("pwd", "87654321");
+                login({
+                    params,
+                    successFn: this.loginFn,
+                });
+            }
         },
     },
     created() {
         this.menu = this.$store.state.menus;
         this.menuChange({ keyPath: ["0"] });
-        let params = new FormData();
-        params.append('loginName', '9999');
-        params.append('pwd', '87654321');
-        login({
-            params,
-            successFn: this.loginFn,
-        });
-        
+        this.getToken();
     },
 };
 </script>
