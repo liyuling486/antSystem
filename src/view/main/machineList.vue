@@ -6,11 +6,6 @@
     height: calc(100% - 50px);
     overflow: hidden;
 }
-.machineList {
-    width: calc(100% + 28px);
-    height: 100%;
-    overflow-y: scroll;
-}
 .headType,
 .headState {
     display: inline-block;
@@ -131,6 +126,20 @@
     align-items: center;
     padding: 0 10px;
 }
+.machineListBox {
+    width: calc(100% + 28px);
+    height: 100%;
+    overflow-y: scroll;
+}
+.machineList {
+    column-gap: 0;
+    height: auto;
+}
+.machineBoxCol {
+    width: calc(100% - 20px);
+    margin: 0 10px 10px 0;
+    break-inside: avoid;
+}
 @media (min-width: 1000px) {
     .machineBox .ant-col {
         width: 100%;
@@ -179,48 +188,54 @@
             </div>
         </div>
         <div class="content">
-            <a-row :gutter="[16, 16]" class="machineList">
-                <a-col
+            <!-- <a-row :gutter="[16, 16]" class="machineList"> -->
+            <div class="machineListBox">
+                <div class="machineList" :style="{columnCount: columnCount}">
+                    <!-- <a-col
                     :md="24"
                     :lg="12"
                     :xl="8"
                     v-for="item in machineList"
                     :key="item.id"
                     class="machineBoxCol"
-                >
-                    <div class="machineBox">
-                        <div class="cardTitle">
-                            <span>{{item.name}}</span>
-                            <span>
-                                运行数 / 总数 ： 1/
-                                <span class="cardTitleTotal">4</span>
-                            </span>
+                    >-->
+                    <div class="machineBoxCol" v-for="item in machineList" :key="item.id">
+                        <div class="machineBox">
+                            <div class="cardTitle">
+                                <span>{{item.name}}</span>
+                                <span>
+                                    运行数 / 总数 ： 1/
+                                    <span class="cardTitleTotal">4</span>
+                                </span>
+                            </div>
+                            <a-row :gutter="[6, 6]">
+                                <a-col
+                                    :md="12"
+                                    :lg="24"
+                                    :xl="12"
+                                    v-for="val in item.machines"
+                                    :key="val.id"
+                                    class="machineCol"
+                                >
+                                    <div class="machine run">
+                                        <div class="machineH">
+                                            <div class="machineT">{{val.machineName}}</div>
+                                            <div class="machineState">运行</div>
+                                        </div>
+                                        <div class="machineM">
+                                            <div class="machineNum">0A(A相)</div>
+                                            <div class="machineNum">0A(A相)</div>
+                                            <div class="machineNum">0A(A相)</div>
+                                        </div>
+                                    </div>
+                                </a-col>
+                            </a-row>
                         </div>
-                        <a-row :gutter="[6, 6]">
-                            <a-col
-                                :md="12"
-                                :lg="24"
-                                :xl="12"
-                                v-for="val in item.machines"
-                                :key="val.id"
-                                class="machineCol"
-                            >
-                                <div class="machine run">
-                                    <div class="machineH">
-                                        <div class="machineT">{{val.machineName}}</div>
-                                        <div class="machineState">运行</div>
-                                    </div>
-                                    <div class="machineM">
-                                        <div class="machineNum">0A(A相)</div>
-                                        <div class="machineNum">0A(A相)</div>
-                                        <div class="machineNum">0A(A相)</div>
-                                    </div>
-                                </div>
-                            </a-col>
-                        </a-row>
+                        <!-- </a-col> -->
                     </div>
-                </a-col>
-            </a-row>
+                    <!-- </a-row> -->
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -233,6 +248,8 @@ export default {
             machineList: [],
             machineType: "workshop",
             allMachine: [],
+            columnCount: 3,
+            screenWidth: 0,
         };
     },
     watch: {
@@ -266,6 +283,18 @@ export default {
             }
             this.machineList = machineList;
         },
+        screenWidth: function (val) {
+            console.log(val);
+            let columnCount = this.columnCount;
+            if (val <= 990) {
+                columnCount = 1;
+            } else if (val <= 1200) {
+                columnCount = 2;
+            } else {
+                columnCount = 3;
+            }
+            this.columnCount = columnCount;
+        },
     },
     methods: {
         getMachineList: function (res) {
@@ -282,10 +311,20 @@ export default {
             this.machineType = e.target.value;
         },
     },
+    // beforeCreate() {
+    //     this.changeTheme("002");
+    // },
     mounted() {
+        const that = this;
+        that.screenWidth = document.body.clientWidth;
         getMachine({
             successFn: this.getMachineList,
         });
+        window.onresize = () => {
+            return (() => {
+                that.screenWidth = document.body.clientWidth;
+            })();
+        };
     },
 };
 </script>

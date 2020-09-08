@@ -1,0 +1,5 @@
+.ant-radio-group-solid .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+    color: #fff;
+    background: #f0f;
+    border-color: #f0f;
+}

@@ -40,9 +40,6 @@
     </a-layout>
 </template>
 <script>
-import { mapState } from "vuex";
-import { login } from "@/api/api";
-import store from "@/store/store";
 export default {
     data() {
         return {
@@ -79,25 +76,10 @@ export default {
             }
             this.bread = bread;
         },
-        loginFn(res) {
-            this.$store.commit("updateLogin", res.data);
-        },
-        getToken() {
-            if (!store.state.token) {
-                let params = new FormData();
-                params.append("loginName", "9999");
-                params.append("pwd", "87654321");
-                login({
-                    params,
-                    successFn: this.loginFn,
-                });
-            }
-        },
     },
     created() {
         this.menu = this.$store.state.menus;
         this.menuChange({ keyPath: ["0"] });
-        this.getToken();
     },
 };
 </script>
