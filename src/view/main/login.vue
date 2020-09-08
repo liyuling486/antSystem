@@ -86,9 +86,10 @@ export default {
     },
     methods: {
         handleSubmit(e) {
-            let user = this.formInline.user;
-            if (this.userList[user]) {
-                this.changeTheme(this.userList[user]);
+            let user = this.formInline.user, userType = this.userList[user];
+            if (userType) {
+                this.changeTheme(userType);
+                this.$store.commit("updateUserType", userType);
                 this.getToken();
                 this.$router.push("/index");
             } else {

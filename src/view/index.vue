@@ -72,12 +72,13 @@ export default {
             }
             let name = bread[bread.length - 1].menuUrl;
             if (location.hash.slice(1) != name) {
-                this.$router.push(name);
+                this.$router.push('/index' + name);
             }
             this.bread = bread;
         },
     },
     created() {
+        console.log('-----')
         this.menu = this.$store.state.menus;
         this.menuChange({ keyPath: ["0"] });
     },

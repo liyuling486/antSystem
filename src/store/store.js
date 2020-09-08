@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
+let token = sessionStorage.getItem('token');
 export default new Vuex.Store({
     state: {
         menus: [
@@ -64,7 +65,8 @@ export default new Vuex.Store({
         ],
         loginName: '',
         loginId: '',
-        token: ''
+        token: token,
+        userType: ''
     },
     actions: {
     },
@@ -73,6 +75,13 @@ export default new Vuex.Store({
             state.loginName = data.name;
             state.loginId = data.id;
             state.token = data.token;
+            sessionStorage.setItem('name', data.name);
+            sessionStorage.setItem('id', data.id);
+            sessionStorage.setItem('token', data.token);
+        },
+        updateUserType(state, data) {
+            state.userType = data;
+            sessionStorage.setItem('userType', data);
         }
     }
 })
