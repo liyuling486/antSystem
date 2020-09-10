@@ -21,7 +21,16 @@ export default new Router({
           path: 'machineList',
           name: 'machineList',
           component: () => import('@/view/main/machineList')
+        },
+        {
+          path: 'analysis',
+          name: 'analysis',
+          component: () => import('@/view/report/analysis')
         }]
+    },
+    {
+      path: '/*',
+      component: Index
     }
   ]
 })

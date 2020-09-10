@@ -9,6 +9,7 @@
 .headType,
 .headState {
     display: inline-block;
+    margin-bottom: 20px;
 }
 .headType {
     margin-right: 20px;
@@ -54,9 +55,6 @@
 .headState
     .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
     box-shadow: none;
-}
-.head {
-    margin-bottom: 20px;
 }
 .machineBox {
     background: #fff;

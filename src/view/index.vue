@@ -23,12 +23,12 @@
         </a-layout-sider>
         <a-layout>
             <a-layout-header style="background: #fff; padding: 0" />
-            <a-layout-content style="margin: 0 16px">
+            <a-layout-content style="margin: 0 16px;">
                 <a-breadcrumb style="margin: 16px 0">
                     <a-breadcrumb-item v-for="item in bread" :key="item.menuId">{{item.name}}</a-breadcrumb-item>
                 </a-breadcrumb>
                 <div
-                    :style="{ padding: '24px', background: '#fff', minHeight: '360px',height: 'calc(100vh - 186px)' }"
+                    :style="{ padding: '24px', background: '#fff', minHeight: '360px',height: 'calc(100vh - 186px)',overflowY: 'auto' }"
                 >
                     <keep-alive>
                         <router-view />
@@ -72,13 +72,13 @@ export default {
             }
             let name = bread[bread.length - 1].menuUrl;
             if (location.hash.slice(1) != name) {
-                this.$router.push('/index' + name);
+                this.$router.push("/index" + name);
             }
             this.bread = bread;
         },
     },
     created() {
-        console.log('-----')
+        console.log("-----");
         this.menu = this.$store.state.menus;
         this.menuChange({ keyPath: ["0"] });
     },
